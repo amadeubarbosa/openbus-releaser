@@ -38,17 +38,44 @@ function makepack {
 		> $OPENBUS_BUILD/puts_makepack.out 2>&1
 	assert_ok $?
 
-	assert_dir $RELEASE_REPO/$TEC_UNAME/$id
+	packbase=
+	if [[ -n "$RELEASE_REPO" ]]; then
+		print_header "BUILD" "Storing package $id on $RELEASE_REPO/$TEC_UNAME/$id"
 
-	print_header "BUILD" "Storing package $id"
+		assert_dir $RELEASE_REPO/$TEC_UNAME/$id
+		packbase=$RELEASE_REPO/$TEC_UNAME/$id/openbus-$id-$TEC_UNAME
+		mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+		assert_ok $?
+		tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
+		assert_ok $?
+	fi
+	if [[ -n "$RELEASE_SCP" ]]; then
+		print_header "BUILD" "Storing package $id on $RELEASE_SCP"
 
-	mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $RELEASE_REPO/$TEC_UNAME/$id
-	assert_ok $?
+		if [[ -z "$packbase" ]]; then
+			packbase=$WORKSPACE/openbus-$id-$TEC_UNAME
+			mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+			assert_ok $?
+			tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
+			assert_ok $?
+		fi
+		scp $packbase{,-BUILD}.tar.gz $RELEASE_SCP
+		assert_ok $?
+	fi
+	if [[ -n "$RELEASE_CURL" ]]; then
+		print_header "BUILD" "Storing package $id on $RELEASE_CURL"
 
-	tar -czf $RELEASE_REPO/$TEC_UNAME/$id/build.tar.gz -C $OPENBUS_BUILD .
-	assert_ok $?
+		if [[ -z "$packbase" ]]; then
+			packbase=$WORKSPACE/openbus-$id-$TEC_UNAME
+			mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+			assert_ok $?
+			tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
+			assert_ok $?
+		fi
+		curl $RELEASE_CURL_PARAMS -T "$packbase{,-BUILD}.tar.gz" $RELEASE_CURL/
+		assert_ok $?
+	fi
 
 	rm -fr $OPENBUS_BUILD
 	assert_ok $?
 }
-
