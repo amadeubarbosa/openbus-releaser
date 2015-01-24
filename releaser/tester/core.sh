@@ -35,6 +35,10 @@ export OPENBUS_CORE_HOME=$OPENBUS_SANDBOX/install/core-$core_ver # must be expor
 export LUA_PATH="$core_src/test/?.lua;$sdklua_src/test/?.lua"
 export LD_LIBRARY_PATH="$OPENBUS_OPENSSL_HOME/lib"
 
+case $sdklua_ver in
+	"2.0"*) OPENBUS_SDKLUA_TEST="$OPENBUS_SANDBOX/build/openbus-lua-$sdklua_ver/test";;
+esac
+
 print_header "TEST" "Testing OpenBus Core $1"
 
 cd $core_src/test
