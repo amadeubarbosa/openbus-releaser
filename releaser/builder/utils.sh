@@ -6,6 +6,7 @@ function makepack {
 	name=$1
 	version=$2
 	modules=$3
+	platform=$4
 
 	id=$name-$version
 	print_header "BUILD" "Compiling $id"
@@ -34,17 +35,22 @@ function makepack {
 		release="--release=$version"
 	fi
 
-	$PUTS_BIN --config=$PUTS_CONF --makepack --profile=$profile $release \
+	arch=$TEC_UNAME
+	if [[ "$platform" != "" ]]; then
+		arch="$platform"
+	fi
+
+	$PUTS_BIN --config=$PUTS_CONF --makepack --profile=$profile $release --arch=$arch \
 		> $OPENBUS_BUILD/puts_makepack.out 2>&1
 	assert_ok $?
 
 	packbase=
 	if [[ -n "$RELEASE_REPO" ]]; then
-		print_header "BUILD" "Storing package $id on $RELEASE_REPO/$TEC_UNAME/$id"
+		print_header "BUILD" "Storing package $id on $RELEASE_REPO/$arch/$id"
 
-		assert_dir $RELEASE_REPO/$TEC_UNAME/$id
-		packbase=$RELEASE_REPO/$TEC_UNAME/$id/openbus-$id-$TEC_UNAME
-		mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+		assert_dir $RELEASE_REPO/$arch/$id
+		packbase=$RELEASE_REPO/$arch/$id/openbus-$id-$arch
+		mv $OPENBUS_BUILD/packs/openbus-$id-$arch.tar.gz $packbase.tar.gz
 		assert_ok $?
 		tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
 		assert_ok $?
@@ -53,8 +59,8 @@ function makepack {
 		print_header "BUILD" "Storing package $id on $RELEASE_SCP"
 
 		if [[ -z "$packbase" ]]; then
-			packbase=$WORKSPACE/openbus-$id-$TEC_UNAME
-			mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+			packbase=$WORKSPACE/openbus-$id-$arch
+			mv $OPENBUS_BUILD/packs/openbus-$id-$arch.tar.gz $packbase.tar.gz
 			assert_ok $?
 			tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
 			assert_ok $?
@@ -66,8 +72,8 @@ function makepack {
 		print_header "BUILD" "Storing package $id on $RELEASE_CURL"
 
 		if [[ -z "$packbase" ]]; then
-			packbase=$WORKSPACE/openbus-$id-$TEC_UNAME
-			mv $OPENBUS_BUILD/packs/openbus-$id-$TEC_UNAME.tar.gz $packbase.tar.gz
+			packbase=$WORKSPACE/openbus-$id-$arch
+			mv $OPENBUS_BUILD/packs/openbus-$id-$arch.tar.gz $packbase.tar.gz
 			assert_ok $?
 			tar -czf $packbase-BUILD.tar.gz -C $OPENBUS_BUILD .
 			assert_ok $?
