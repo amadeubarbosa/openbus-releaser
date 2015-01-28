@@ -3,10 +3,10 @@
 source releaser/setupenv.sh
 
 function makepack {
-	name=$1
-	version=$2
-	modules=$3
-	platform=$4
+	local name=$1
+	local version=$2
+	local modules=$3
+	local platform=$4
 
 	id=$name-$version
 	print_header "BUILD" "Compiling $id"
@@ -30,12 +30,12 @@ function makepack {
 		done
 	fi
 
-	release=
+	local release=
 	if [[ "$version" != "" ]]; then
 		release="--release=$version"
 	fi
 
-	arch=$TEC_UNAME
+	local arch=$TEC_UNAME
 	if [[ "$platform" != "" ]]; then
 		arch="$platform"
 	fi
@@ -44,7 +44,7 @@ function makepack {
 		> $OPENBUS_BUILD/puts_makepack.out 2>&1
 	assert_ok $?
 
-	packbase=
+	local packbase=
 	if [[ -n "$RELEASE_REPO" ]]; then
 		print_header "BUILD" "Storing package $id on $RELEASE_REPO/$arch/$id"
 

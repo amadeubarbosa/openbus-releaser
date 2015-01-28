@@ -3,9 +3,6 @@
 source releaser/setupenv.sh
 
 function getpack {
-	pack=$1
-	platform=$2
-
 	if [[ -n "$RELEASE_REPO" ]]; then
 		pack=$RELEASE_REPO/$platform/$id/$pack
 	fi
@@ -28,15 +25,15 @@ function installpack {
 	# $3: platform
 	# $4: destination path
 	
-	id=$1-$2
-	platform=$3
+	local id=$1-$2
+	local platform=$3
 	if [[ "$platform" == "" ]]; then
 		platform="$TEC_UNAME"
 	fi
-	pack=openbus-$id-$platform.tar.gz
-	dest=$4
+	local pack=openbus-$id-$platform.tar.gz
+	local dest=$4
 	
-	getpack $pack $platform
+	getpack
 
 	if [[ $dest == "" ]]; then
 		dest=$OPENBUS_SANDBOX/install/$id
@@ -57,15 +54,16 @@ function installsrc {
 	# $4: platform
 	# $5: destination path
 	
-	id=$1-$2
-	platform=$4
+	local id=$1-$2
+	local platform=$4
 	if [[ "$platform" == "" ]]; then
 		platform="$TEC_UNAME"
 	fi
-	pack=openbus-$id-$platform-BUILD.tar.gz
-	dest=$5
+	local pack=openbus-$id-$platform-BUILD.tar.gz
+	local dest=$5
+	local pack
 	
-	getpack $pack $platform
+	getpack
 
 	if [[ $dest == "" ]]; then
 		dest=$OPENBUS_SANDBOX
