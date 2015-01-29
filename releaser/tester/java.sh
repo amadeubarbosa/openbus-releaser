@@ -35,7 +35,7 @@ installpack openssl $ssl_ver
 installpack java $sdkjava_ver $platform
 # TODO only needed if version != 2.1
 case $sdklua_ver in
-	"2.0"*)
+	"2.0"* | "2.1.0.0rc1")
 	 	installpack lua52 $sdklua_ver
 	 	OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver # runbus.sh runadmin.sh --> busconsole
 	 	;;
