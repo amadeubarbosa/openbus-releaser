@@ -72,9 +72,44 @@ function installsrc {
 
 	print_header "TEST" "Recovering source of $3 @ $id"
 
-	tar -xzf $pack -C $dest ./build/$3*
+	tar -xzf $pack -C $dest --wildcards ./build/$3*
 	assert_ok $?
 }
 
-OPENBUS_TEMP=$OPENBUS_SANDBOX/temp
+function installbase {
+	core_ver=$1
+	ssl_ver=$2
+	if [[ "$ssl_ver" == "" ]]; then
+		ssl_ver=1.0.0m
+	fi
+	
+	installsrc core $core_ver openbus-busservice
+	installsrc core $core_ver openbus-lua
+	
+	for d in $OPENBUS_SANDBOX/build/openbus-lua-*; do
+		[ -d "$d" ] && sdklua_ver="${d/$OPENBUS_SANDBOX\/build\/openbus\-lua\-/}" && break
+	done
+	# TODO assert $sdklua_ver
+	
+	core_src=$OPENBUS_SANDBOX/build/openbus-busservice-$core_ver
+	sdklua_src=$OPENBUS_SANDBOX/build/openbus-lua-$sdklua_ver
+	
+	installpack openssl $ssl_ver
+	installpack core $core_ver
+	case $core_ver in
+		"2.0"* | "2.1.0.0rc1")
+		 	installpack lua52 $sdklua_ver
+		 	OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver # runconsole.sh --> busconsole
+			OPENBUS_SDKLUA_TEST="$sdklua_src/test" # run*.sh --> runconsole.sh
+		 	;;
+	esac
+	
+	OPENBUS_OPENSSL_HOME=$OPENBUS_SANDBOX/install/openssl-$ssl_ver
+	export LD_LIBRARY_PATH="$OPENBUS_OPENSSL_HOME/lib"
+	OPENBUS_CORE_HOME=$OPENBUS_SANDBOX/install/core-$core_ver # runbus.sh runadmin.sh --> busservies busamin
+	OPENBUS_CORE_TEST="$core_src/test" # runall.sh --> runbus.sh runadmin.sh
+	export LUA_PATH="$core_src/test/?.lua;$sdklua_src/test/?.lua"
+}
+
+export OPENBUS_TEMP=$OPENBUS_SANDBOX/temp
 assert_dir $OPENBUS_TEMP
