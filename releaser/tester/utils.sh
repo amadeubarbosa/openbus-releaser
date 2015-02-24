@@ -72,7 +72,11 @@ function installsrc {
 
 	print_header "TEST" "Recovering source of $3 @ $id"
 
-	tar -xzf $pack -C $dest --wildcards ./build/$3*
+	if [[ "$TEC_SYSNAME" == "Darwin" ]]; then
+		tar -xzf $pack -C $dest ./build/$3*
+	else
+		tar -xzf $pack -C $dest --wildcards ./build/$3*
+	fi
 	assert_ok $?
 }
 
