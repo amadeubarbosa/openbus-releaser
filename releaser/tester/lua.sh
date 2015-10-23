@@ -13,7 +13,7 @@ installsrc lua52 $sdklua_ver openbus-lua
 
 sdklua_src=$OPENBUS_SANDBOX/build/openbus-lua-$sdklua_ver
 export OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver  # must be exported due to interop. test
-export LUA_PATH="$sdklua_src/test/?.lua;$LUA_PATH"
+export OPENBUS_SDKLUA_TEST=$sdklua_src/test  # must be exported due to interop. test
 
 print_header "TEST" "Testing SDK-Lua"
 

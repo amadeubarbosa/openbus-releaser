@@ -102,17 +102,15 @@ function installbase {
 	installpack core $core_ver
 	case $core_ver in
 		"2.0"* | "2.1.0.0rc1")
-		 	installpack lua52 $sdklua_ver
-		 	OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver # runconsole.sh --> busconsole
-			OPENBUS_SDKLUA_TEST="$sdklua_src/test" # run*.sh --> runconsole.sh
-		 	;;
+			installpack lua52 $sdklua_ver
+			OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver # runconsole.sh --> busconsole
+			;;
 	esac
 	
 	OPENBUS_OPENSSL_HOME=$OPENBUS_SANDBOX/install/openssl-$ssl_ver
-	export LD_LIBRARY_PATH="$OPENBUS_OPENSSL_HOME/lib"
 	OPENBUS_CORE_HOME=$OPENBUS_SANDBOX/install/core-$core_ver # runbus.sh runadmin.sh --> busservies busamin
-	OPENBUS_CORE_TEST="$core_src/test" # runall.sh --> runbus.sh runadmin.sh
-	export LUA_PATH="$core_src/test/?.lua;$sdklua_src/test/?.lua"
+	OPENBUS_CORE_TEST=$core_src/test # runbus.sh -> validators
+	OPENBUS_SDKLUA_TEST=$sdklua_src/test # run*.sh --> runconsole.sh | runadmin.sh -> openbus.test.*
 }
 
 export OPENBUS_TEMP=$OPENBUS_SANDBOX/temp
