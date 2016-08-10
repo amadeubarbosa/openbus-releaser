@@ -30,6 +30,7 @@ if [[ "$WORKSPACE" == "" ]]; then
 fi
 
 LUA51_BIN=$LUA51/bin/$TEC_UNAME/lua5.1
+LUA52_BIN=$LUA52/bin/${TEC_UNAME}co/lua52
 RELEASE_REPO=${RELEASE_REPO:=$WORKSPACE/releases}
 #RELEASE_SCP=openbus@ubu:/local/openbus/releases
 #RELEASE_CURL=ftp://ftp-pub.tecgraf.puc-rio.br/openbus/releases
@@ -38,3 +39,7 @@ OPENBUS_BUILD=$WORKSPACE/build
 OPENBUS_SANDBOX=$WORKSPACE/sandbox
 PUTS_HOME=$WORKSPACE/puts
 PUTS_BIN="$LUA51_BIN -epackage.path=[[$PUTS_HOME/lua/?.lua]] $PUTS_HOME/lua/tools/console.lua"
+LOSKI_HOME=$WORKSPACE/loski
+LFS_HOME=$WORKSPACE/luafilesystem
+RUNNER_HOME=$WORKSPACE/interop-runner
+INTEROP_RUN="$LUA52_BIN -epackage.path=[[$RUNNER_HOME/lua/?.lua]] -epackage.cpath=[[$LFS_HOME/lib/${TEC_UNAME}co/lib?.so;$LOSKI_HOME/src/?.so]] $RUNNER_HOME/lua/runall.lua"
