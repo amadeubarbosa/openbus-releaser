@@ -11,10 +11,20 @@ function makepack {
 	id=$name-$version
 	print_header "BUILD" "Compiling $id"
 
+	assert_dir $LFS_HOME
+
+	PUTS_CONF=$LFS_HOME/puts.conf
+	echo "BASEDIR = '$LFS_HOME' " > $PUTS_CONF
+
+	$PUTS_BIN --config=$PUTS_CONF --compile --update --force \
+		  --select="luafilesystem-1.4.2lua51snapshot" \
+		  > $LFS_HOME/puts_compile.out 2>&1
+	assert_ok $?
+
 	assert_dir $OPENBUS_BUILD
 
 	PUTS_CONF=$OPENBUS_BUILD/puts.conf
-	echo "BASEDIR = '$OPENBUS_BUILD'" > $PUTS_CONF
+	echo "BASEDIR = '$OPENBUS_BUILD' " > $PUTS_CONF
 
 	$PUTS_BIN --config=$PUTS_CONF --compile --update --force --select="$modules" \
 		> $OPENBUS_BUILD/puts_compile.out 2>&1
@@ -82,6 +92,7 @@ function makepack {
 		assert_ok $?
 	fi
 
+	rm -fr $LFS_HOME
 	rm -fr $OPENBUS_BUILD
 	assert_ok $?
 }

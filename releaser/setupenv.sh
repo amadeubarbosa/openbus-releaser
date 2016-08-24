@@ -37,9 +37,10 @@ RELEASE_REPO=${RELEASE_REPO:=$WORKSPACE/releases}
 #RELEASE_CURL_PARAMS=--ftp-ssl --insecure --user openbus:<senha>
 OPENBUS_BUILD=$WORKSPACE/build
 OPENBUS_SANDBOX=$WORKSPACE/sandbox
-PUTS_HOME=$WORKSPACE/puts
-PUTS_BIN="$LUA51_BIN -epackage.path=[[$PUTS_HOME/lua/?.lua]] $PUTS_HOME/lua/tools/console.lua"
-LOSKI_HOME=$WORKSPACE/loski
 LFS_HOME=$WORKSPACE/luafilesystem
+LFS_LDIR=$LFS_HOME/install/lib
+PUTS_HOME=$WORKSPACE/puts
+PUTS_BIN="$LUA51_BIN -epackage.cpath=[[$LFS_LDIR/lib?.so]] -epackage.path=[[$PUTS_HOME/lua/?.lua]] $PUTS_HOME/lua/tools/console.lua"
+LOSKI_HOME=$WORKSPACE/loski
 RUNNER_HOME=$WORKSPACE/interop-runner
 INTEROP_RUN="$LUA52_BIN -epackage.path=[[$RUNNER_HOME/lua/?.lua]] -epackage.cpath=[[$LFS_HOME/lib/${TEC_UNAME}co/lib?.so;$LOSKI_HOME/src/?.so]] $RUNNER_HOME/lua/runall.lua"
