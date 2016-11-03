@@ -43,4 +43,4 @@ PUTS_HOME=$WORKSPACE/puts
 PUTS_BIN="$LUA51_BIN -epackage.cpath=[[$LFS_LDIR/lib?.so]] -epackage.path=[[$PUTS_HOME/lua/?.lua]] $PUTS_HOME/lua/tools/console.lua"
 LOSKI_HOME=$WORKSPACE/loski
 RUNNER_HOME=$WORKSPACE/interop-runner
-INTEROP_RUN="$LUA52_BIN -epackage.path=[[$RUNNER_HOME/lua/?.lua]] -epackage.cpath=[[$LFS_HOME/lib/${TEC_UNAME}co/lib?.so;$LOSKI_HOME/src/?.so]] $RUNNER_HOME/lua/runall.lua"
+INTEROP_RUN="$LUA52_BIN -epackage.path=[[$RUNNER_HOME/lua/?.lua]] -epackage.cpath=[[$LFS_HOME/lib/${TEC_UNAME}/lib?.so;$LOSKI_HOME/src/?.so]] $RUNNER_HOME/lua/runall.lua"
