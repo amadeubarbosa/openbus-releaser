@@ -30,7 +30,7 @@ if [[ "$WORKSPACE" == "" ]]; then
 fi
 
 LUA51_BIN=$LUA51/bin/$TEC_UNAME/lua5.1
-LUA52_BIN=$LUA52/bin/${TEC_UNAME}co/lua52
+LUA52_BIN=$LUA52/bin/${TEC_UNAME}/lua52
 RELEASE_REPO=${RELEASE_REPO:=$WORKSPACE/releases}
 #RELEASE_SCP=openbus@ubu:/local/openbus/releases
 #RELEASE_CURL=ftp://ftp-pub.tecgraf.puc-rio.br/openbus/releases
