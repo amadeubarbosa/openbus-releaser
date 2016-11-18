@@ -90,7 +90,8 @@ function installbase {
 	installsrc core $core_ver openbus-busservice
 	installsrc core $core_ver openbus-lua
 	
-	for d in $OPENBUS_SANDBOX/build/openbus-lua-*; do
+	protocol_ver=${core_ver:0:3}
+	for d in $OPENBUS_SANDBOX/build/openbus-lua-$protocol_ver*; do
 		[ -d "$d" ] && coresdklua_ver="${d/$OPENBUS_SANDBOX\/build\/openbus\-lua\-/}" && break
 	done
 	# TODO assert $coresdklua_ver
