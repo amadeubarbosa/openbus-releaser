@@ -8,8 +8,8 @@ installbase $1
 
 export OPENBUS_TESTCFG=$OPENBUS_TEMP/test.properties
 
-bus1port=21210
-bus2port=21212
+bus1port=21214
+bus2port=21216
 leasetime=5
 passwordpenalty=10
 
