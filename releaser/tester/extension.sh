@@ -8,9 +8,9 @@ assert_arg "$2" "extension.sh <extension version> <core version> [openssl versio
 installbase $2 $3
 
 version=$1
-installpack extension $version
-installsrc extension $version openbus-busextension
-installsrc extension $version openbus-lua
+installpack busextension $version
+installsrc busextension $version openbus-busextension
+installsrc busextension $version openbus-lua
 
 for d in $OPENBUS_SANDBOX/build/openbus-lua-*; do
 	[ -d "$d" ] && sdklua_ver="${d/$OPENBUS_SANDBOX\/build\/openbus\-lua\-/}" && break
