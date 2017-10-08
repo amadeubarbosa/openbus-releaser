@@ -17,6 +17,8 @@ for d in $OPENBUS_SANDBOX/build/openbus-lua-*; do
 done
 if [ -z $sdklua_ver ]; then exit 1; fi
 
+installpack lua52 $sdklua_ver
+
 sdklua_src=$(ls -d $OPENBUS_SANDBOX/build/openbus-lua-*)
 export OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver  # must be exported due to test
 export OPENBUS_SDKLUA_TEST=$sdklua_src/test  # must be exported due to test
