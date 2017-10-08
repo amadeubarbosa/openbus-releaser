@@ -19,17 +19,15 @@ if [ -z $sdklua_ver ]; then exit 1; fi
 
 installpack lua52 $sdklua_ver
 
-sdklua_src=$(ls -d $OPENBUS_SANDBOX/build/openbus-lua-*)
 export OPENBUS_SDKLUA_HOME=$OPENBUS_SANDBOX/install/lua52-$sdklua_ver  # must be exported due to test
-export OPENBUS_SDKLUA_TEST=$sdklua_src/test  # must be exported due to test
+export OPENBUS_SDKLUA_TEST=$OPENBUS_SANDBOX/build/openbus-lua-$sdklua_ver/test  # must be exported due to test
 
-extension_src=$OPENBUS_SANDBOX/build/openbus-busextension-$version
 export OPENBUS_GOVERNANCE_HOME=$OPENBUS_SANDBOX/install/busextension-$version
-export OPENBUS_GOVERNANCE_TEST=$extension_src/test
+export OPENBUS_GOVERNANCE_TEST=$OPENBUS_SANDBOX/build/openbus-busextension-$version/test
 
 print_header "TEST" "Testing Governance Extension Service"
 
-cd $extension_src/test
+cd $OPENBUS_GOVERNANCE_TEST
 
 source runall.sh RELEASE
 
